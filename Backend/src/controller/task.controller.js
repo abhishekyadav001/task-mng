@@ -21,8 +21,25 @@ exports.createTask = async (req, res) => {
 
 exports.getTasks = async (req, res) => {
   try {
-    const tasks = await taskModel.find();
-    res.json(tasks);
+    const { search, completed, page = 1, limit = 10 } = req.query;
+    const filter = {};
+
+    if (search) {
+      filter.$or = [{ title: { $regex: search, $options: "i" } }, { description: { $regex: search, $options: "i" } }];
+    }
+    console.log(filter);
+    if (completed !== undefined) {
+      filter.completed = completed === "true";
+    }
+
+    const tasks = await taskModel
+      .find(filter)
+      .skip((page - 1) * limit)
+      .limit(Number(limit));
+
+    const total = await taskModel.countDocuments(filter);
+
+    res.json({ tasks, total, page: Number(page), limit: Number(limit) });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
