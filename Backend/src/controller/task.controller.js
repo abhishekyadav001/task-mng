@@ -27,7 +27,7 @@ exports.getTasks = async (req, res) => {
     if (search) {
       filter.$or = [{ title: { $regex: search, $options: "i" } }, { description: { $regex: search, $options: "i" } }];
     }
-    console.log(filter);
+    
     if (completed !== undefined) {
       filter.completed = completed === "true";
     }
