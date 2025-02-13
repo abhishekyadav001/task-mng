@@ -12,6 +12,8 @@ const TaskManager: React.FC = () => {
     const [search, setSearch] = useState("");
     const [filter, setFilter] = useState("all");
     const [newTask, setNewTask] = useState({ title: "", description: "" });
+    const [currentPage, setCurrentPage] = useState(1);
+    const tasksPerPage = 5;
 
     const addTask = () => {
         if (!newTask.title.trim()) return;
@@ -31,6 +33,12 @@ const TaskManager: React.FC = () => {
         (filter === "all" || (filter === "completed" && task.completed) || (filter === "pending" && !task.completed)) &&
         task.title.toLowerCase().includes(search.toLowerCase())
     );
+
+    const indexOfLastTask = currentPage * tasksPerPage;
+    const indexOfFirstTask = indexOfLastTask - tasksPerPage;
+    const currentTasks = filteredTasks.slice(indexOfFirstTask, indexOfLastTask);
+
+    const totalPages = Math.ceil(filteredTasks.length / tasksPerPage);
 
     return (
         <div className="min-h-screen bg-gray-100 p-6 flex flex-col items-center">
@@ -72,7 +80,7 @@ const TaskManager: React.FC = () => {
                     <button onClick={addTask} className="bg-indigo-600 text-white px-4 py-2 rounded-md">Add</button>
                 </div>
                 <ul className="space-y-2">
-                    {filteredTasks.map(task => (
+                    {currentTasks.map(task => (
                         <li key={task.id} className="border p-3 rounded-md flex justify-between items-center">
                             <div>
                                 <p className={`text-lg font-medium ${task.completed ? "line-through text-gray-500" : ""}`}>{task.title}</p>
@@ -87,6 +95,15 @@ const TaskManager: React.FC = () => {
                         </li>
                     ))}
                 </ul>
+                <div className="mt-4 flex justify-center gap-2">
+                    <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} className="px-3 py-1 bg-gray-300 rounded-md" disabled={currentPage === 1}>
+                        Previous
+                    </button>
+                    <span className="px-3 py-1 bg-gray-200 rounded-md">Page {currentPage} of {totalPages}</span>
+                    <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} className="px-3 py-1 bg-gray-300 rounded-md" disabled={currentPage === totalPages}>
+                        Next
+                    </button>
+                </div>
             </div>
         </div>
     );
