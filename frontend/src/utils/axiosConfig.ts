@@ -7,9 +7,10 @@ const getAccessToken = (): string | null => {
   return typeof token === "string" ? token : null;
 };
 
-const api = "http://localhost:8080"; // Correct variable name (if using CRA)
+const api = import.meta.env.VITE_API_URL;
 
 if (!api) {
+  console.log(api);
   alert("REACT_APP_API_URL environment variable is not defined!");
   throw new Error("REACT_APP_API_URL environment variable is not defined!"); // Or handle gracefully
 }
@@ -25,7 +26,7 @@ axiosInstance.interceptors.request.use(
 
     if (accessToken) {
       // @ts-expect-error
-      
+
       config.headers = {
         ...config.headers,
         "x-access-token": accessToken,
