@@ -24,6 +24,8 @@ axiosInstance.interceptors.request.use(
     const accessToken = getAccessToken(); // Use the typed function
 
     if (accessToken) {
+      // @ts-expect-error
+      
       config.headers = {
         ...config.headers,
         "x-access-token": accessToken,

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { signupAPI } from "../Redux/Auth/action";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { AppDispatch } from "../Redux/store";
 
 interface SignupFormInputs {
     username: string;
@@ -13,7 +14,7 @@ interface SignupFormInputs {
 const SignupForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SignupFormInputs>();
     const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
+    const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     const onSubmit = async (data: SignupFormInputs) => {
         setLoading(true);

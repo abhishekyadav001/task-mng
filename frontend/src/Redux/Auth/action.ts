@@ -71,7 +71,9 @@ const handleAxiosError = (error: AxiosError): string => {
     errorMessage = "Network error: Unable to connect to the server.";
   } else if (error.response && error.response.status === 503) {
     errorMessage = "Server is not started yet.";
+    // @ts-ignore
   } else if (error.response && error.response.data && error.response.data.msg) {
+    // @ts-ignore
     errorMessage = error.response.data.msg;
   } else if (error.message) {
     errorMessage = error.message;

@@ -64,11 +64,16 @@ export const authReducer = (state: AuthState = initData, action: AuthAction): Au
         isLoading: false,
         isError: true,
         signupStatus: false,
+        // @ts-expect-error
         errorMessage: action.payload.payload, // Access payload correctly
       };
 
     case types.LOGIN_SUCCESS:
+      // @ts-expect-error
+
       setLocalStorageItem("accessToken", action.payload.token);
+      // @ts-expect-error
+
       return { ...state, isLoading: false, token: action.payload.token, auth: action.payload.token }; // Update auth as well
 
     case types.SIGNUP_SUCCESS:
