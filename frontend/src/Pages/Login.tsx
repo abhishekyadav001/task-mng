@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { loginAPI } from "../Redux/Auth/action";
-import { useDispatch, useSelector, useStore } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../Redux/store";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginFormInputs {
     email: string;
@@ -13,7 +13,7 @@ interface LoginFormInputs {
 const LoginForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
     const [loading, setLoading] = useState(false);
-    const { token } = useSelector((store) => store.auth)
+    const { token } = useSelector((store: any) => store.auth)
     const dispatch = useDispatch<AppDispatch>();
     const navigate = useNavigate();
     useEffect(() => {

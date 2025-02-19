@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import { Link } from "react-router-dom";
-import { Menu, X, LayoutDashboard, ListChecks, Info, LogIn, UserPlus } from "lucide-react";
+import { Menu, X, LayoutDashboard, ListChecks, LogIn, UserPlus } from "lucide-react";
 import MainRoutes from './routes/Mainroutes'
 import { useDispatch, useSelector } from 'react-redux';
 import { logoutAPI } from './Redux/Auth/action';
@@ -9,7 +9,7 @@ import { AppDispatch } from './Redux/store';
 
 function App() {
 
-  const { token } = useSelector((store) => store.auth)
+  const { token } = useSelector((store: any) => store.auth)
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const logoutHandle = () => {
