@@ -46,7 +46,13 @@ async function userSignupController(username, email, password) {
 async function userLoginController(email, password) {
   try {
     const user = await userModel.findOne({ email });
-
+    console.log(password);
+    if (!user) {
+      return {
+        status: 401,
+        payload: { msg: "User Not Found" },
+      };
+    }
     const hashPassword = user.password;
 
     const check = await argon2.verify(hashPassword, password);

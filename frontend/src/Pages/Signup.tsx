@@ -1,8 +1,11 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { signupAPI } from "../Redux/Auth/action";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 interface SignupFormInputs {
-    name: string;
+    username: string;
     email: string;
     password: string;
 }
@@ -10,24 +13,27 @@ interface SignupFormInputs {
 const SignupForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<SignupFormInputs>();
     const [loading, setLoading] = useState(false);
-
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const onSubmit = async (data: SignupFormInputs) => {
         setLoading(true);
         try {
             console.log("Signup Data:", data);
+            await dispatch(signupAPI(data))
+            navigate("/login");
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
-            alert("Signup successful!");
+            // await new Promise(resolve => setTimeout(resolve, 2000));
+            // alert("Signup successful!");
         } catch (error) {
             console.error("Signup error:", error);
-            alert("Signup failed. Please try again.");
+            alert("Signup failed. Please try again .)");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center w-full bg-gray-100">
+        <div className="min-h-screen flex items-center justify-center ">
             <div className="bg-white shadow-md rounded-lg px-8 py-6 max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">Create an Account</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -37,9 +43,9 @@ const SignupForm: React.FC = () => {
                             type="text"
                             className="shadow-sm rounded-md w-full px-3 py-2 border border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
                             placeholder="John Doe"
-                            {...register("name", { required: "Name is required" })}
+                            {...register("username", { required: "Username is required" })}
                         />
-                        {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name.message}</p>}
+                        {errors.username && <p className="text-red-500 text-xs mt-1">{errors.username.message}</p>}
                     </div>
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">Email Address</label>

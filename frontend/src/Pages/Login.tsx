@@ -1,5 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { loginAPI } from "../Redux/Auth/action";
+import { useDispatch, useSelector, useStore } from "react-redux";
+import { AppDispatch } from "../Redux/store";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface LoginFormInputs {
     email: string;
@@ -9,14 +13,23 @@ interface LoginFormInputs {
 const LoginForm: React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginFormInputs>();
     const [loading, setLoading] = useState(false);
-
+    const { token } = useSelector((store) => store.auth)
+    const dispatch = useDispatch<AppDispatch>();
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (token) {
+            navigate('/tasks')
+        }
+    }, [dispatch])
     const onSubmit = async (data: LoginFormInputs) => {
         setLoading(true);
         try {
             console.log("Login Data:", data);
+            await dispatch(loginAPI(data));
             // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            // await new Promise(resolve => setTimeout(resolve, 2000));
             alert("Login successful!");
+            navigate('/tasks')
         } catch (error) {
             console.error("Login error:", error);
             alert("Login failed. Please try again.");
@@ -26,7 +39,7 @@ const LoginForm: React.FC = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center w-full bg-gray-100">
+        <div className="min-h-screen flex items-center justify-center w-full">
             <div className="bg-white shadow-md rounded-lg px-8 py-6 max-w-md">
                 <h1 className="text-2xl font-bold text-center mb-4 text-gray-800">Welcome Back!</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -55,7 +68,7 @@ const LoginForm: React.FC = () => {
                             <input type="checkbox" id="remember" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 focus:outline-none" defaultChecked />
                             <label htmlFor="remember" className="ml-2 block text-sm text-gray-700">Remember me</label>
                         </div>
-                        <a href="#" className="text-xs text-indigo-500 hover:text-indigo-700">Create Account</a>
+                        <a href="/signup" className="text-xs text-indigo-500 hover:text-indigo-700">Create Account</a>
                     </div>
                     <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" disabled={loading}>
                         {loading ? "Logging in..." : "Login"}

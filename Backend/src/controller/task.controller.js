@@ -10,7 +10,7 @@ exports.createTask = async (req, res) => {
 
     const user = await userModel.findById(req.body.userID);
     if (!user) return res.status(400).json({ error: "User not found" });
-
+    console.log(req.body);
     const task = new taskModel(req.body);
     await task.save();
     res.status(201).json(task);
@@ -27,8 +27,9 @@ exports.getTasks = async (req, res) => {
     if (search) {
       filter.$or = [{ title: { $regex: search, $options: "i" } }, { description: { $regex: search, $options: "i" } }];
     }
-    
-    if (completed !== undefined) {
+
+    if (completed) {
+      console.log(completed);
       filter.completed = completed === "true";
     }
 
@@ -38,8 +39,8 @@ exports.getTasks = async (req, res) => {
       .limit(Number(limit));
 
     const total = await taskModel.countDocuments(filter);
-
-    res.json({ tasks, total, page: Number(page), limit: Number(limit) });
+    const totalPages = Math.ceil(total / Number(limit));
+    res.json({ tasks, total, page: Number(page), limit: Number(limit), totalPages });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
