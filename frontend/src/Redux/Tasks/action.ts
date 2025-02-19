@@ -48,7 +48,6 @@ export const deleteTask = (id: number) => async (dispatch: any) => {
 export const toggleTask = (id: number) => async (dispatch: any, getState: any) => {
   try {
     dispatch({ type: taskTypes.TASKS_REQUEST });
-    // const task = getState().tasks.tasks.find((t: Task) => t.id === id);
     const response = await axiosInstance.patch(`/task/${id}/toggle`);
     dispatch({ type: taskTypes.TOGGLE_TASK, payload: response.data });
   } catch (error: any) {

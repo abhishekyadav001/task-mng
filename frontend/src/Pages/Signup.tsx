@@ -21,9 +21,6 @@ const SignupForm: React.FC = () => {
             console.log("Signup Data:", data);
             await dispatch(signupAPI(data))
             navigate("/login");
-            // Simulate API call
-            // await new Promise(resolve => setTimeout(resolve, 2000));
-            // alert("Signup successful!");
         } catch (error) {
             console.error("Signup error:", error);
             alert("Signup failed. Please try again .)");

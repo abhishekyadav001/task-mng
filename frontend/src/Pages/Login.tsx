@@ -26,8 +26,6 @@ const LoginForm: React.FC = () => {
         try {
             console.log("Login Data:", data);
             await dispatch(loginAPI(data));
-            // Simulate API call
-            // await new Promise(resolve => setTimeout(resolve, 2000));
             alert("Login successful!");
             navigate('/tasks')
         } catch (error) {

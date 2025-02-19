@@ -1,7 +1,7 @@
 import React, { JSX } from "react";
 import { useSelector } from "react-redux";
 import { Navigate } from "react-router-dom";
-import { RootState } from "../Redux/store"; // Import your root reducer type
+import { RootState } from "../Redux/store";
 
 interface PrivateRouteProps {
     children: JSX.Element; // Define the type of children prop

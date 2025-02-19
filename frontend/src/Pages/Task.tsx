@@ -88,7 +88,6 @@ const TaskManager: React.FC = () => {
 
     return (
         <div className=" max-h-full overflow-scroll overflow-x-hidden overflow-y-scroll">
-            {/* {JSON.stringify(tasks)} */}
             <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-6">
                 <div className="sticky top-0 bg-white pb-1.5">
                     <h1 className="text-2xl font-bold text-center mb-4">Task Manager</h1>

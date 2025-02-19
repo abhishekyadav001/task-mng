@@ -3,7 +3,7 @@ import { axiosInstance } from "../../utils/axiosConfig";
 import { Dispatch } from "redux"; // Import Dispatch type
 import { AxiosError } from "axios"; // Import AxiosError
 
-// Define types for your action payloads
+// Define types for action payloads
 interface LoginSuccessPayload {
   token: string;
 }
@@ -20,7 +20,7 @@ interface ErrorPayload {
   payload: string;
 }
 
-// Define the types for your actions.  This is important for type safety.
+// Define the types for  actions.  This is important for type safety.
 interface AccountLoadingAction {
   type: typeof types.ACCOUNT_LOADING;
 }
